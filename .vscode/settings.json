@@ -1,7 +1,4 @@
 {
-    "files.associations": {
-        "*.jac": "python"
-    },
     "[jac]": {
         "editor.defaultFormatter": "ms-python.python",
         "editor.formatOnSave": false,

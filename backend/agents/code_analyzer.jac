@@ -126,7 +126,7 @@ walker analyze_repository {
         report {"analysis": self.analysis_result};
     }
     
-    can build_relationships {
+    can build_relationships with `root entry {
         relationships = [];
         
         # Build inheritance relationships
@@ -140,6 +140,6 @@ walker analyze_repository {
             }
         }
         
-        return relationships;
+        report {"relationships": relationships};
     }
 }

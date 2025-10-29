@@ -1,7 +1,7 @@
 """Codebase Genius - Main Entry Point
-Multi-agent system for automatic code documentation generation"""
+Multi-agent system for automatic code documentation generation
+"""
 
-# Node representing a repository being analyzed
 node Repository {
     has url: str;
     has local_path: str = "";
