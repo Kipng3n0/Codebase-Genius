@@ -147,6 +147,46 @@ st.markdown("""
         color: #2d3748 !important;
         font-weight: 700 !important;
     }
+    
+    /* Markdown content styling */
+    .main h1 {
+        color: #1a202c !important;
+    }
+    
+    .main h2 {
+        color: #2d3748 !important;
+        border-bottom: 2px solid #e2e8f0;
+        padding-bottom: 0.5rem;
+    }
+    
+    .main p {
+        color: #1a202c !important;
+    }
+    
+    .main a {
+        color: #1a202c !important;
+        text-decoration: underline;
+    }
+    
+    .main a:hover {
+        color: #2d3748 !important;
+    }
+    
+    .main strong {
+        color: #2d3748 !important;
+    }
+    
+    .main li {
+        color: #1a202c !important;
+    }
+    
+    .main code {
+        background: #f7fafc;
+        color: #0891b2;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-weight: 600;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -233,13 +273,16 @@ if st.button("Generate Documentation", type="primary", use_container_width=True)
         
         try:
             status.markdown("### Cloning repository...")
-            progress.progress(25)
+            status.caption("This may take a few minutes for large repositories")
+            progress.progress(20)
             
-            response = requests.post(f"{api_url}/analyze", json={"repo_url": repo_url}, timeout=120)
+            # Increased timeout for large repositories like Flask
+            response = requests.post(f"{api_url}/analyze", json={"repo_url": repo_url}, timeout=300)
             
             status.markdown("### Analyzing code...")
-            progress.progress(75)
-            time.sleep(0.5)
+            status.caption("Processing files and generating documentation...")
+            progress.progress(80)
+            time.sleep(0.3)
             
             if response.status_code == 200:
                 result = response.json()
