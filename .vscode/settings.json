@@ -1,0 +1,50 @@
+{
+    "files.associations": {
+        "*.jac": "python"
+    },
+    "[jac]": {
+        "editor.defaultFormatter": "ms-python.python",
+        "editor.formatOnSave": false,
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    },
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/venv/lib/python3.13/site-packages"
+    ],
+    "python.defaultInterpreterPath": "${workspaceFolder}/venv/bin/python",
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "keyword.control.jac",
+                "settings": {
+                    "foreground": "#C678DD"
+                }
+            },
+            {
+                "scope": "storage.type.jac",
+                "settings": {
+                    "foreground": "#E5C07B"
+                }
+            },
+            {
+                "scope": "string.quoted.double.jac",
+                "settings": {
+                    "foreground": "#98C379"
+                }
+            },
+            {
+                "scope": "keyword.other.jac",
+                "settings": {
+                    "foreground": "#61AFEF"
+                }
+            }
+        ]
+    },
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/*.pyc": true,
+        "**/venv": true,
+        "**/.git": true,
+        "**/temp_repos": false
+    }
+}
