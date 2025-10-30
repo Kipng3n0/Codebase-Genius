@@ -166,10 +166,27 @@ st.markdown("""
     .main a {
         color: #1a202c !important;
         text-decoration: underline;
+        font-weight: 600;
     }
     
     .main a:hover {
         color: #2d3748 !important;
+    }
+    
+    /* Force all markdown links to be dark */
+    .main .element-container a {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    .main .stMarkdown a {
+        color: #1a202c !important;
+        font-weight: 600 !important;
+    }
+    
+    /* Links inside spans inherit color */
+    span a {
+        color: inherit !important;
     }
     
     .main strong {
@@ -322,9 +339,8 @@ if st.button("Generate Documentation", type="primary", use_container_width=True)
                 
                 st.markdown("<br>", unsafe_allow_html=True)
                 
-                # Display documentation in a nice container
-                with st.container():
-                    st.markdown(doc)
+                # Display documentation
+                st.markdown(doc, unsafe_allow_html=True)
             else:
                 st.error(f"Error: {response.json().get('detail')}")
         except Exception as e:

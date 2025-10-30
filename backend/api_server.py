@@ -148,7 +148,7 @@ def analyze_repository_code(repo_path: str, file_tree: Dict) -> Dict:
 def generate_documentation(repo_name: str, repo_url: str, analysis: Dict, file_tree: Dict) -> str:
     """Generate markdown documentation"""
     doc = f"# {repo_name}\n\n"
-    doc += f"**Repository:** [{repo_url}]({repo_url})\n\n"
+    doc += f"**Repository:** <span style='color: #000000;'><a href='{repo_url}'>{repo_url}</a></span>\n\n"
     doc += f"**Generated:** {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n"
     doc += "---\n\n"
     
