@@ -30,7 +30,8 @@ An AI-powered, multi-agent system that automatically generates high-quality docu
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# on linux
+source venv/bin/activate 
 ```
 
 3. Install Dependencies
