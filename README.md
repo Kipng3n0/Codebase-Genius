@@ -223,12 +223,6 @@ This project is licensed under the MIT License.
 - UI created with Streamlit
 - Code analysis using Python's AST module
 
-## Contact
-
-For questions or support, please open an issue on GitHub.
-
----
-
 **Codebase Genius** - Making code documentation effortless
 
 Built with precision for developers | 2025
