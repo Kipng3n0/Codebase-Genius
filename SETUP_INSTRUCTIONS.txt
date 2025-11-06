@@ -1,0 +1,367 @@
+# SETUP INSTRUCTIONS - CODEBASE GENIUS
+# Comprehensive Installation and Running Guide
+
+## SYSTEM REQUIREMENTS
+
+### Minimum Requirements:
+- Python 3.8 or higher
+- Git 2.0 or higher
+- 4GB RAM (8GB recommended)
+- 1GB free disk space
+- Internet connection for repository cloning
+
+### Supported Operating Systems:
+- Linux (Ubuntu 18.04+, CentOS 7+)
+- macOS 10.14+
+- Windows 10/11
+
+## INSTALLATION GUIDE
+
+### Step 1: Clone Repository
+```bash
+git clone https://github.com/Kipng3n0/Codebase-Genius
+cd Codebase-Genius
+```
+
+### Step 2: Create Virtual Environment
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Linux/macOS:
+source venv/bin/activate
+
+# On Windows:
+venv\Scripts\activate
+
+# Verify activation (should show venv path)
+which python
+```
+
+### Step 3: Install Dependencies
+```bash
+# Upgrade pip first
+pip install --upgrade pip
+
+# Install required packages
+pip install fastapi uvicorn streamlit requests gitpython
+
+# Verify installation
+pip list | grep -E "(fastapi|uvicorn|streamlit|requests|gitpython)"
+```
+
+### Step 4: Verify Installation
+```bash
+# Test Python imports
+python -c "import fastapi, uvicorn, streamlit, requests, git; print('All dependencies installed successfully')"
+
+# Check Git installation
+git --version
+```
+
+## RUNNING THE APPLICATION
+
+### Method 1: Using Two Terminals (Recommended)
+
+#### Terminal 1 - Backend Server:
+```bash
+cd Codebase-Genius
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+cd backend
+python api_server.py
+```
+
+Expected output:
+```
+Starting Codebase Genius API...
+API will be available at http://localhost:8000
+API docs at http://localhost:8000/docs
+INFO:     Started server process [XXXX]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+```
+
+#### Terminal 2 - Frontend Interface:
+```bash
+cd Codebase-Genius
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+cd frontend
+streamlit run app.py
+```
+
+Expected output:
+```
+  You can now view your Streamlit app in your browser.
+
+  Local URL: http://localhost:8501
+  Network URL: http://192.168.x.x:8501
+```
+
+### Method 2: Using Background Processes
+
+#### Start Backend in Background:
+```bash
+cd backend
+nohup python api_server.py > ../logs/backend.log 2>&1 &
+echo $! > ../logs/backend.pid
+```
+
+#### Start Frontend in Background:
+```bash
+cd frontend
+nohup streamlit run app.py > ../logs/frontend.log 2>&1 &
+echo $! > ../logs/frontend.pid
+```
+
+#### Stop Background Processes:
+```bash
+# Stop backend
+kill $(cat logs/backend.pid)
+
+# Stop frontend
+kill $(cat logs/frontend.pid)
+```
+
+## ACCESSING THE APPLICATION
+
+### Web Interfaces:
+- **Main Application**: http://localhost:8501
+- **API Server**: http://localhost:8000
+- **API Documentation**: http://localhost:8000/docs
+- **API Status**: http://localhost:8000/status
+
+### Testing API Directly:
+```bash
+# Test API status
+curl http://localhost:8000/status
+
+# Test repository analysis
+curl -X POST "http://localhost:8000/analyze" \
+  -H "Content-Type: application/json" \
+  -d '{"repo_url": "https://github.com/pallets/flask"}'
+```
+
+## USAGE INSTRUCTIONS
+
+### Basic Usage:
+1. Open browser to http://localhost:8501
+2. Enter GitHub repository URL
+3. Click "Generate Documentation"
+4. Wait for analysis completion
+5. View results and download documentation
+
+### Example Repositories:
+- **Small**: https://github.com/Kipng3n0/Codebase-Genius
+- **Medium**: https://github.com/pallets/flask
+- **Large**: https://github.com/django/django
+
+### Supported Repository Types:
+- Public GitHub repositories
+- Python projects
+- JavaScript/TypeScript projects
+- Java projects
+- Jac language projects
+- Mixed-language projects
+
+## TROUBLESHOOTING
+
+### Common Issues and Solutions:
+
+#### 1. Port Already in Use
+**Error**: `[Errno 98] address already in use`
+**Solution**:
+```bash
+# Find process using port 8000
+lsof -ti:8000
+
+# Kill the process
+kill -9 $(lsof -ti:8000)
+
+# Or use different port
+uvicorn api_server:app --port 8001
+```
+
+#### 2. Module Not Found
+**Error**: `ModuleNotFoundError: No module named 'fastapi'`
+**Solution**:
+```bash
+# Ensure virtual environment is activated
+source venv/bin/activate
+
+# Reinstall dependencies
+pip install -r backend/requirements.txt
+```
+
+#### 3. Git Clone Fails
+**Error**: `Failed to clone repository`
+**Solutions**:
+- Check internet connection
+- Verify repository URL is correct
+- Ensure repository is public
+- Check Git installation: `git --version`
+
+#### 4. Streamlit Not Starting
+**Error**: `streamlit: command not found`
+**Solution**:
+```bash
+# Ensure virtual environment is activated
+source venv/bin/activate
+
+# Install streamlit
+pip install streamlit
+
+# Verify installation
+streamlit --version
+```
+
+#### 5. Permission Denied
+**Error**: `Permission denied` when creating temp directories
+**Solution**:
+```bash
+# Check temp directory permissions
+ls -la /tmp
+
+# Create custom temp directory
+mkdir -p ~/codebase-genius-temp
+export TMPDIR=~/codebase-genius-temp
+```
+
+### Debug Mode:
+
+#### Enable Debug Logging:
+```bash
+# Backend debug mode
+cd backend
+python api_server.py --log-level debug
+
+# Frontend debug mode
+cd frontend
+streamlit run app.py --logger.level debug
+```
+
+#### Check Logs:
+```bash
+# View backend logs
+tail -f logs/backend.log
+
+# View frontend logs
+tail -f logs/frontend.log
+```
+
+## CONFIGURATION OPTIONS
+
+### Environment Variables:
+```bash
+# Optional: Set custom ports
+export BACKEND_PORT=8000
+export FRONTEND_PORT=8501
+
+# Optional: Set temp directory
+export TMPDIR=/custom/temp/path
+
+# Optional: Set cache directory
+export CACHE_DIR=/custom/cache/path
+```
+
+### Configuration Files:
+- `backend/requirements.txt`: Python dependencies
+- `.gitignore`: Ignored files and directories
+- `frontend/.streamlit/config.toml`: Streamlit configuration (optional)
+
+## PERFORMANCE OPTIMIZATION
+
+### For Large Repositories:
+1. Increase timeout values in API calls
+2. Use SSD storage for better I/O performance
+3. Ensure sufficient RAM (8GB+ recommended)
+4. Close unnecessary applications
+
+### Caching:
+- Analysis results are cached in memory
+- Clear cache by restarting backend server
+- Cache persists until server restart
+
+## SECURITY CONSIDERATIONS
+
+### Network Security:
+- Backend runs on localhost:8000 (not exposed externally)
+- Frontend runs on localhost:8501 (not exposed externally)
+- No authentication required for local usage
+
+### Repository Access:
+- Only public repositories are supported
+- No credentials stored or transmitted
+- Temporary clones are automatically cleaned up
+
+## DEVELOPMENT SETUP
+
+### For Development:
+```bash
+# Install development dependencies
+pip install pytest black flake8 mypy
+
+# Run tests
+pytest tests/
+
+# Format code
+black backend/ frontend/
+
+# Lint code
+flake8 backend/ frontend/
+```
+
+### File Structure:
+```
+Codebase-Genius/
+├── backend/
+│   ├── agents/          # Jac walker files
+│   ├── api_server.py    # FastAPI application
+│   ├── main.jac         # Main Jac entry point
+│   └── requirements.txt # Dependencies
+├── frontend/
+│   └── app.py          # Streamlit application
+├── logs/               # Log files (created at runtime)
+├── README.md           # Main documentation
+└── venv/              # Virtual environment
+```
+
+## SUPPORT AND DOCUMENTATION
+
+### Additional Resources:
+- **FastAPI Docs**: https://fastapi.tiangolo.com/
+- **Streamlit Docs**: https://docs.streamlit.io/
+- **GitPython Docs**: https://gitpython.readthedocs.io/
+
+### Getting Help:
+1. Check this troubleshooting guide
+2. Review error logs in logs/ directory
+3. Test API endpoints directly with curl
+4. Verify all dependencies are installed
+5. Ensure virtual environment is activated
+
+### System Health Check:
+```bash
+# Run comprehensive system check
+python -c "
+import sys
+print(f'Python version: {sys.version}')
+
+try:
+    import fastapi, uvicorn, streamlit, requests, git
+    print(' All dependencies installed')
+except ImportError as e:
+    print(f' Missing dependency: {e}')
+
+import subprocess
+result = subprocess.run(['git', '--version'], capture_output=True, text=True)
+print(f'Git version: {result.stdout.strip()}')
+
+import os
+print(f'Current directory: {os.getcwd()}')
+print(f'Virtual environment: {sys.prefix}')
+"
+```
+
+This completes the comprehensive setup and running instructions for the Codebase Genius application.
